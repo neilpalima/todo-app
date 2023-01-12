@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import httpContext from 'express-http-context';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
+import cors from 'cors';
 
 import * as OpenApiValidator from 'express-openapi-validator';
 
@@ -28,6 +29,7 @@ export async function createApp(): Promise<express.Application> {
     const app = express();
     app.set('port', AppConfig.servicePort);
     app.use(helmet());
+    app.use(cors());
     app.use(bodyParser.json({ limit: '5mb', type: 'application/json' }));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(
