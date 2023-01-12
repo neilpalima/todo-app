@@ -17,6 +17,7 @@
         "module-alias": "^2.2.2",
         "source-map-support": "^0.5.19",
         "swagger-parser": "^10.0.2",
+        "uuid": "^9.0.0",
         "winston": "^3.8.2"
     },
     "devDependencies": {
@@ -25,6 +26,7 @@
         "@types/module-alias": "^2.0.1",
         "@types/node": "^18.11.18",
         "@types/supertest": "^2.0.10",
+        "@types/uuid": "^9.0.0",
         "@typescript-eslint/eslint-plugin": "^5.30.6",
         "@typescript-eslint/parser": "^5.30.6",
         "cross-env": "^7.0.2",

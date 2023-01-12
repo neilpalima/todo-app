@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { NotFoundError } from 'src/errors';
 
 interface TodoItem {
@@ -18,7 +20,7 @@ export class TodoService {
 
     create(description: string): TodoItem {
         const newTodo = {
-            id: Date.now().toString(),
+            id: uuidv4(),
             description
         };
 
