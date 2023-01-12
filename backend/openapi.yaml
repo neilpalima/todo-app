@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: 'Swagger Docs'
+  description: 'Todo API'
+servers:
+  - description: Local development
+    url: 'http://localhost:3000'
+paths:
+  /:
+    get:
+      tags:
+        - root
+      operationId: getRoot
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Root'
+  /api/todo:
+    get:
+      tags:
+        - todo
+      operationId: getTodo
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+    post:
+      tags:
+        - todo
+      operationId: postTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400Response'
+  /api/todo/{id}:
+    put:
+      tags:
+        - todo
+      operationId: putTodo
+      parameters:
+        - name: id
+          in: path
+          description: Todo id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400Response'
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404Response'
+    delete:
+      tags:
+        - todo
+      operationId: deleteTodo
+      parameters:
+        - name: id
+          in: path
+          description: Todo id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404Response'
+
+components:
+  schemas:
+    Root:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: 'OK'
+    Todo:
+      type: object
+      required:
+        - id
+        - description
+      properties:
+        id:
+          type: string
+          example: 'f8123c7e-c584-401d-8fe9-457772457289'
+        description:
+          type: string
+          example: 'Finish the app'
+    TodoRequest:
+      type: object
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          example: 'Finish the app'
+    Error400Response:
+      type: object
+      required:
+        - error_code
+        - message
+      properties:
+        error_code:
+          type: string
+          enum:
+            - API_VALIDATION_ERROR
+        message:
+          type: string
+        errors:
+          $ref: '#/components/schemas/ArrayOfErrors'
+    Error404Response:
+      type: object
+      required:
+        - error_code
+        - message
+      properties:
+        error_code:
+          type: string
+          enum:
+            - NOT_FOUND_ERROR
+        message:
+          type: string
+    Error500Response:
+      type: object
+      required:
+        - error_code
+        - message
+      properties:
+        error_code:
+          type: string
+          enum:
+            - INTERNAL_SERVER_ERROR
+        message:
+          type: string
+    ArrayOfErrors:
+      nullable: true
+      type: array
+      items:
+        oneOf:
+          - type: string
+          - type: object
