@@ -18,7 +18,7 @@ interface Props {
 export const MainContext = createContext<MainContextInterface | null>(null);
 
 const todoApi = axios.create({
-    baseURL: process.env.TODO_API_URL || 'localhost:8080/api/todo',
+    baseURL: process.env.TODO_API_URL || 'http://localhost:8080/api/todo',
 });
 
 export const MainProvider = ({ children }: Props) => {
